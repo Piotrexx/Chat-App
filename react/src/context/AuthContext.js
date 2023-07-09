@@ -48,9 +48,27 @@ export const AuthProvider = ({children}) => {
             body: JSON.stringify({'username':event.target.username.value, 'password':event.target.password.value, 'email':event.target.email.value})
         })
 
-        if(response.status === 200){
-            navigate('/login')
+        navigate('/login')
+    }
+
+    let CreateChatRoom = async (event) => {
+        event.preventDefault()
+        let isPrivate
+        if(event.target.private.value == "on"){
+            isPrivate = true
         }
+        else{
+            isPrivate = false
+        }
+        let response= await fetch('http://localhost:8000/chatroomform/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'title':event.target.title.value, 'description':event.target.description.value, 'private':isPrivate, 'author': user.user_id})
+        }
+        )
+        navigate('/')
     }
 
     let logoutUser = () => {
@@ -65,7 +83,8 @@ export const AuthProvider = ({children}) => {
         user:user,
         loginUser:loginUser,
         logoutUser:logoutUser,
-        CreateUser:CreateUser
+        CreateUser:CreateUser,
+        CreateChatRoom:CreateChatRoom
     }
 
     return(

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from .models import ChatRoom
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -9,3 +10,8 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
+
+class ChatRoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatRoom
+        fields = '__all__'

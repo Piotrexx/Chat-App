@@ -21,6 +21,7 @@ from userapp import views
 router = routers.DefaultRouter()
 
 router.register(r'user', views.UserSerializerView, 'user')
+router.register(r'chatroomform', views.ChatRoomSerializerView, 'chatroomform')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

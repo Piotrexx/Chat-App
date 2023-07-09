@@ -9,7 +9,12 @@ function HomePage() {
           <span> | </span>
           
           {user ? (
-            <Link onClick={logoutUser}>Logout</Link>
+            <div>
+              <Link onClick={logoutUser}>Logout</Link>
+              <span> | </span>
+              <Link to='/chatroomcreator'>Create new room</Link>
+            </div>
+
           ): (
             <Link to="/login">Login</Link>
           )}
