@@ -29,7 +29,7 @@ function App() {
             <Route path="/chatroomcreator" element={<ChatRoomForm/>}/>
             {
             data.map((item, index)=>(
-              <Route key={index} path={`/chatroom/${item.title}`}  element={<ChatRooms roomName={item.title} roomDescirption={item.description} roomAuthor={item.author} />}/>
+              <Route key={index} path={`/chatroom/${item.title}`}  element={<ChatRooms roomName={item.title} roomDescirption={item.description} roomAuthor={item.author} roomID={item.id} />}/>
 
 
               ))

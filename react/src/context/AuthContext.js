@@ -69,7 +69,22 @@ export const AuthProvider = ({children}) => {
         }
         )
         navigate('/')
+        
     }
+
+    let CreateMessage = async (event) =>{
+        event.preventDefault()
+
+        let response =  await fetch('http://localhost:8000/message/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'content':event.target.content.value, 'author': user.user_id, 'chatroom': event.target.chatroom.value})
+        })
+        window.location.reload();
+    }
+
 
     let logoutUser = () => {
         setAuthTokens(null)
@@ -84,7 +99,8 @@ export const AuthProvider = ({children}) => {
         loginUser:loginUser,
         logoutUser:logoutUser,
         CreateUser:CreateUser,
-        CreateChatRoom:CreateChatRoom
+        CreateChatRoom:CreateChatRoom,
+        CreateMessage:CreateMessage
     }
 
     return(
