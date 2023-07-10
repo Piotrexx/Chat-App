@@ -7,3 +7,4 @@ class ChatRoom(models.Model):
     description = models.CharField(max_length=250)
     private = models.BooleanField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+
