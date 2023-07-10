@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 
 router.register(r'user', views.UserSerializerView, 'user')
 router.register(r'chatroomform', views.ChatRoomSerializerView, 'chatroomform')
+router.register(r'message', views.MessageSerielizerView, 'message')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

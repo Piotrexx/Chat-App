@@ -2,9 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import viewsets
-from .serializers import UserSerializer, ChatRoomSerializer
+from .serializers import UserSerializer, ChatRoomSerializer, MessageSerializer
 from django.contrib.auth.models import User
-from .models import ChatRoom
+from .models import ChatRoom, Message
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -26,3 +26,7 @@ class UserSerializerView(viewsets.ModelViewSet):
 class ChatRoomSerializerView(viewsets.ModelViewSet):
     serializer_class = ChatRoomSerializer
     queryset = ChatRoom.objects.all()
+
+class MessageSerielizerView(viewsets.ModelViewSet):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
