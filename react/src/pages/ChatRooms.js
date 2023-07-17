@@ -21,24 +21,11 @@ function ChatRooms({ roomName, roomDescription, roomAuthor, roomID }) {
     .catch(error => console.log(error))
   }, [])
 
-  // console.log(message)
-  console.log(data)
 
 
-  // const options = {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  //   hour: "numeric",
-  //   minute: "numeric",
-  //   second: "numeric",
-  //   timeZoneName: "short",
-  // }
 
-  // function formatDate(date) {
-  //   const dateTime = new Date(date);
-  //   return dateTime.toLocaleString(undefined, options);
-  // }
+
+
 
   let ConvertingNames = (ID) =>{
     fetch(`http://localhost:8000/user/${ID}/`)
@@ -59,7 +46,7 @@ ConvertingNames(2)
       correctMessages.push(item)
     }
   })
-// console.log(correctMessages)
+
 
   return (
     <div>
