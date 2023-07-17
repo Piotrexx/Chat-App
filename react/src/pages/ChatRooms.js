@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react"
 import AuthContext from "../context/AuthContext" 
 function ChatRooms({ roomName, roomDescription, roomAuthor, roomID }) {
   let [data, setData] = useState([]) 
+  let [username, setUsername] = useState([])
   let { CreateMessage } = useContext(AuthContext) 
   let [message, setMessages] = useState([])
   let correctMessages = []
@@ -21,6 +22,34 @@ function ChatRooms({ roomName, roomDescription, roomAuthor, roomID }) {
   }, [])
 
   // console.log(message)
+  console.log(data)
+
+
+  // const options = {
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  //   hour: "numeric",
+  //   minute: "numeric",
+  //   second: "numeric",
+  //   timeZoneName: "short",
+  // }
+
+  // function formatDate(date) {
+  //   const dateTime = new Date(date);
+  //   return dateTime.toLocaleString(undefined, options);
+  // }
+
+  let ConvertingNames = (ID) =>{
+    fetch(`http://localhost:8000/user/${ID}/`)
+    .then((response) => response.json())
+      .then((username) => {
+        setUsername(username.username) 
+      })
+      .catch((error) => console.log(error))
+  }
+
+ConvertingNames(2)
 
   message.map((item) =>{
     if(item.chatroom !== roomID){
@@ -30,7 +59,7 @@ function ChatRooms({ roomName, roomDescription, roomAuthor, roomID }) {
       correctMessages.push(item)
     }
   })
-console.log(correctMessages)
+// console.log(correctMessages)
 
   return (
     <div>
