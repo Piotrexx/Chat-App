@@ -53,7 +53,7 @@ ConvertingNames(2)
 
   message.map((item) =>{
     if(item.chatroom !== roomID){
-      console.log('nope')
+      return 0
     }
     else{
       correctMessages.push(item)

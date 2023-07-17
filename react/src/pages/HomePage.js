@@ -82,7 +82,6 @@ function HomePage() {
             <h3>Search users: </h3>
             <form>
               <input type='text' name='usersearch' placeholder='Type searching query' onChange={(e) => SearchItems(e.target.value)}/>
-              <input type='submit'/>
             </form>
              
                 {searchInput.length > 1 ? (
