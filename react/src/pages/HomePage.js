@@ -37,7 +37,17 @@ function HomePage() {
         }
       }
 
-      
+      let HandleRequest = async (receiver) =>{
+        let response = await fetch('http://127.0.0.1:8000/friendrequest/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({'status': 'pending','sender': user.user_id, 'receiver': receiver})
+          
+        })
+
+      }
     return (
       <div className=''>
           <Link to='/'>Home</Link>
@@ -88,7 +98,7 @@ function HomePage() {
                     filteredResults.map((item, index) => {
                     return(
                       <p key={index}>
-                      {item.username}
+                      {item.username} <span><button onClick={() => HandleRequest(item.id)}>ADD FRIEND</button></span>
                     </p>
                     )
 
@@ -97,7 +107,7 @@ function HomePage() {
                     username.map((item, index) => {
                         return (
                             <p key={index}>
-                              {item.username}
+                              {item.username} <span><button onClick={() => HandleRequest(item.id)}>ADD FRIEND</button></span>
                             </p>
                         )
                     })

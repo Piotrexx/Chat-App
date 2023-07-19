@@ -5,7 +5,7 @@ from .models import ChatRoom, Message, UserProfile, FriendRequest
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'password', 'id')
     
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
