@@ -8,6 +8,27 @@ function HomePage() {
     let [username, setUsername] = useState([])
     let [searchInput, setSearchInput] = useState('')
     let  [filteredResults, setFilteredResults] = useState([])
+    let [friendRequest, setFriendRequest] = useState([])
+
+    let correctRequests = []
+
+  useEffect(() =>{
+    fetch('http://127.0.0.1:8000/friendrequest/')
+    .then(response => response.json())
+    .then(friendRequest => setFriendRequest(friendRequest))
+    .catch(error => console.log(error))
+  }, [])
+
+  
+  friendRequest.map((item) =>{
+    if(item.receiver !== user.user_id){
+      return 0
+    }
+    else{
+      correctRequests.push(item)
+    }
+  })
+
     useEffect(() => {
       fetch('http://localhost:8000/chatroomform/')
       .then(response => response.json())
@@ -65,13 +86,7 @@ function HomePage() {
           ): (
             <Link to="/login">Login</Link>
           )}
-       
-  
-  
           {user && <p>Hello {user.username}</p>}
-          
-
-
           
           {
                 data.map((item, index)=>(
@@ -112,6 +127,18 @@ function HomePage() {
                         )
                     })
                 )}
+                {
+                  correctRequests.map((item, index) => {
+                    return (
+                      <p key={index}>
+                        Friend Request from
+                        {item.sender}
+                      </p>
+                    )
+                  })
+                }
+                    
+
       </div>
     )
 }
