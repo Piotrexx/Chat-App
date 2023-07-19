@@ -23,6 +23,9 @@ router = routers.DefaultRouter()
 router.register(r'user', views.UserSerializerView, 'user')
 router.register(r'chatroomform', views.ChatRoomSerializerView, 'chatroomform')
 router.register(r'message', views.MessageSerielizerView, 'message')
+router.register(r'userprofile', views.UserProfileSerielizerView, 'userprofile')
+router.register(r'friendrequest', views.FriendRequestSerielizerView, 'friendreuquest')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
