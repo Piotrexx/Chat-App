@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 function HomePage() {
-    let {user, logoutUser, acceptRequest} = useContext(AuthContext)
+    let {user, logoutUser, acceptRequest, declineRequest} = useContext(AuthContext)
     let [data, setData] = useState([])
     let [username, setUsername] = useState([])
     let [searchInput, setSearchInput] = useState('')
@@ -140,7 +140,8 @@ function HomePage() {
                       <p key={index}>
                         Friend Request from
                         {item.sender}
-                        <button onClick={() => acceptRequest(item.sender, item.id)}>ACCEPT</button><span> | </span> <button>DECLINE</button>
+                        
+                        <button onClick={() => acceptRequest(item.sender, item.id)}>ACCEPT</button><span> | </span> <button onClick={() => declineRequest(item.id)}>DECLINE</button>
                       </p>
                     )
                   })

@@ -107,9 +107,17 @@ export const AuthProvider = ({children}) => {
                 'Content-Type': 'application/json'
             }
         })
-        // window.location.reload();
+        window.location.reload();
     }
 
+    let declineRequest = async (requestID) => {
+        let response = await fetch(`http://127.0.0.1:8000/friendrequest/${requestID}/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+    }
 
     let contextData = {
         user:user,
@@ -118,7 +126,8 @@ export const AuthProvider = ({children}) => {
         CreateUser:CreateUser,
         CreateChatRoom:CreateChatRoom,
         CreateMessage:CreateMessage,
-        acceptRequest:acceptRequest
+        acceptRequest:acceptRequest,
+        declineRequest:declineRequest
     }
 
     return(
