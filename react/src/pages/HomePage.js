@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 
 function HomePage() {
-    let {user, logoutUser} = useContext(AuthContext)
+    let {user, logoutUser, acceptRequest} = useContext(AuthContext)
     let [data, setData] = useState([])
     let [username, setUsername] = useState([])
     let [searchInput, setSearchInput] = useState('')
@@ -67,7 +67,14 @@ function HomePage() {
           body: JSON.stringify({'status': 'pending','sender': user.user_id, 'receiver': receiver})
           
         })
-
+      }
+      let ConvertingNames = (ID) =>{
+        fetch(`http://localhost:8000/user/${ID}/`)
+        .then((response) => response.json())
+          .then((username) => {
+            setUsername(username.username) 
+          })
+          .catch((error) => console.log(error))
       }
     return (
       <div className=''>
@@ -128,15 +135,17 @@ function HomePage() {
                     })
                 )}
                 {
-                  correctRequests.map((item, index) => {
+               correctRequests.map((item, index) => {
                     return (
                       <p key={index}>
                         Friend Request from
                         {item.sender}
+                        <button onClick={() => acceptRequest(item.sender, item.id)}>ACCEPT</button><span> | </span> <button>DECLINE</button>
                       </p>
                     )
                   })
                 }
+                
                     
 
       </div>

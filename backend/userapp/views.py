@@ -5,6 +5,7 @@ from rest_framework import viewsets
 from .serializers import UserSerializer, ChatRoomSerializer, MessageSerializer, UserProfileSerielizer, FriendRequestSerielizer
 from django.contrib.auth.models import User
 from .models import ChatRoom, Message, UserProfile, FriendRequest
+from rest_framework.response import Response
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -38,3 +39,7 @@ class UserProfileSerielizerView(viewsets.ModelViewSet):
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer
     queryset = FriendRequest.objects.all()
+
+
+
+    

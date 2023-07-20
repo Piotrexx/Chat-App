@@ -93,6 +93,23 @@ export const AuthProvider = ({children}) => {
         navigate('/login')
     }
 
+    let acceptRequest = async (friendID, requestID) => {
+        let response = await fetch('http://127.0.0.1:8000/userprofile/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'user':user.user_id, 'friends': [friendID]})         
+        })
+        let test = await fetch(`http://127.0.0.1:8000/friendrequest/${requestID}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        // window.location.reload();
+    }
+
 
     let contextData = {
         user:user,
@@ -100,7 +117,8 @@ export const AuthProvider = ({children}) => {
         logoutUser:logoutUser,
         CreateUser:CreateUser,
         CreateChatRoom:CreateChatRoom,
-        CreateMessage:CreateMessage
+        CreateMessage:CreateMessage,
+        acceptRequest:acceptRequest
     }
 
     return(
