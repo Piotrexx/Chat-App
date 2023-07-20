@@ -6,6 +6,7 @@ from .serializers import UserSerializer, ChatRoomSerializer, MessageSerializer, 
 from django.contrib.auth.models import User
 from .models import ChatRoom, Message, UserProfile, FriendRequest
 from rest_framework.response import Response
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -30,8 +31,17 @@ class ChatRoomSerializerView(viewsets.ModelViewSet):
 
 class MessageSerielizerView(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
-    queryset = Message.objects.all()
-
+    def get_queryset(self):
+        queryset = Message.objects.all()
+        foreign_key_id = self.kwargs.get('foreign_key_id')
+        if foreign_key_id:
+            queryset = queryset.filter(chatroom_id=foreign_key_id)
+        return queryset    
+    # def get_queryset(self):
+    #     chatroom_id = self.kwargs['chatroom']
+    #     queryset = Message.objects.filter(chatroom=chatroom_id)
+    #     return queryset
+    
 class UserProfileSerielizerView(viewsets.ModelViewSet):
     serializer_class = UserProfileSerielizer
     queryset = UserProfile.objects.all()
@@ -39,6 +49,7 @@ class UserProfileSerielizerView(viewsets.ModelViewSet):
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer
     queryset = FriendRequest.objects.all()
+
 
 
 

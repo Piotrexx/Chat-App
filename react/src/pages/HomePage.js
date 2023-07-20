@@ -9,8 +9,10 @@ function HomePage() {
     let [searchInput, setSearchInput] = useState('')
     let  [filteredResults, setFilteredResults] = useState([])
     let [friendRequest, setFriendRequest] = useState([])
+    let [friends, setFriends] = useState([])
 
     let correctRequests = []
+    let realFriends = []
 
   useEffect(() =>{
     fetch('http://127.0.0.1:8000/friendrequest/')
@@ -26,6 +28,19 @@ function HomePage() {
     }
     else{
       correctRequests.push(item)
+    }
+  })
+
+  useEffect(() =>{
+    fetch('http://127.0.0.1:8000/userprofile/')
+    .then(response => response.json())
+    .then(friends => setFriends(friends))
+    .catch(error => console.log(error))
+  }, [])
+
+  friends.map((item)=> {
+    if(item.user || item.friends === user.user_id){
+      realFriends.push(item)
     }
   })
 
@@ -146,7 +161,16 @@ function HomePage() {
                     )
                   })
                 }
-                
+
+                {
+                  realFriends.map((item, index) =>{
+                    return(
+                      <p key={index}>
+                        {item.friends}
+                      </p>
+                    )
+                  })
+                }
                     
 
       </div>
