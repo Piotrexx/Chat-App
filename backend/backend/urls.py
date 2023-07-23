@@ -22,9 +22,7 @@ router = routers.DefaultRouter()
 
 router.register(r'user', views.UserSerializerView, 'user')
 router.register(r'chatroomform', views.ChatRoomSerializerView, 'chatroomform')
-# router.register(r'messages', views.MessageSerielizerView, 'message')
 router.register(r'userprofile', views.UserProfileSerielizerView, 'userprofile')
-router.register(r'friendrequest', views.FriendRequestSerielizerView, 'friendreuquest')
 
 
 urlpatterns = [
@@ -32,4 +30,5 @@ urlpatterns = [
     path('api/', include('userapp.urls')),
     path('', include(router.urls)),
     path('messages/<int:foreign_key_id>/', views.MessageSerielizerView.as_view({'get': 'list'}), name='message-list'),
+    path('friendrequest/<int:foreign_key_id>/', views.FriendRequestSerielizerView.as_view({'get':'list'}), name="friendrequest")
 ]

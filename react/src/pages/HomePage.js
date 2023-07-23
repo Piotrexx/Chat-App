@@ -10,26 +10,16 @@ function HomePage() {
     let  [filteredResults, setFilteredResults] = useState([])
     let [friendRequest, setFriendRequest] = useState([])
     let [friends, setFriends] = useState([])
-
-    let correctRequests = []
     let realFriends = []
 
   useEffect(() =>{
-    fetch('http://127.0.0.1:8000/friendrequest/')
+    fetch(`http://127.0.0.1:8000/friendrequest/${user.user_id}/`)
     .then(response => response.json())
     .then(friendRequest => setFriendRequest(friendRequest))
     .catch(error => console.log(error))
   }, [])
 
   
-  friendRequest.map((item) =>{
-    if(item.receiver !== user.user_id){
-      return 0
-    }
-    else{
-      correctRequests.push(item)
-    }
-  })
 
   useEffect(() =>{
     fetch('http://127.0.0.1:8000/userprofile/')
@@ -73,15 +63,14 @@ function HomePage() {
         }
       }
 
-      let HandleRequest = async (receiver) =>{
-        let response = await fetch('http://127.0.0.1:8000/friendrequest/', {
+      let HandleRequest = async (receiver) => {
+        let response = await fetch('http://127.0.0.1:8000/friendrequest/0/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({'status': 'pending','sender': user.user_id, 'receiver': receiver})
-          
-        })
+        });
       }
       let ConvertingNames = (ID) =>{
         fetch(`http://localhost:8000/user/${ID}/`)
@@ -150,7 +139,7 @@ function HomePage() {
                     })
                 )}
                 {
-               correctRequests.map((item, index) => {
+               friendRequest.map((item, index) => {
                     return (
                       <p key={index}>
                         Friend Request from

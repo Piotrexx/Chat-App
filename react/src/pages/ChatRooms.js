@@ -5,7 +5,7 @@ function ChatRooms({ roomName, roomDescription, roomAuthor, roomID }) {
   let [username, setUsername] = useState([])
   let { CreateMessage } = useContext(AuthContext) 
   let [message, setMessages] = useState([])
-  let correctMessages = []
+
   useEffect(() => {
     fetch(`http://localhost:8000/user/${roomAuthor}/`)
       .then((response) => response.json())
@@ -14,38 +14,14 @@ function ChatRooms({ roomName, roomDescription, roomAuthor, roomID }) {
       })
       .catch((error) => console.log(error)) 
   }, []) 
+
+
   useEffect(() =>{
-    fetch('http://localhost:8000/message/')
+    fetch(`http://127.0.0.1:8000/messages/${roomID}/`)
     .then((response) => response.json())
     .then((message) => setMessages(message))
     .catch(error => console.log(error))
   }, [])
-
-
-
-
-
-
-
-  let ConvertingNames = (ID) =>{
-    fetch(`http://localhost:8000/user/${ID}/`)
-    .then((response) => response.json())
-      .then((username) => {
-        setUsername(username.username) 
-      })
-      .catch((error) => console.log(error))
-  }
-
-ConvertingNames(2)
-
-  message.map((item) =>{
-    if(item.chatroom !== roomID){
-      return 0
-    }
-    else{
-      correctMessages.push(item)
-    }
-  })
 
 
   return (
@@ -60,7 +36,7 @@ ConvertingNames(2)
       </form>
       <div>
       {
-        correctMessages.map((item, index) => {
+        message.map((item, index) => {
           return (
             <ul key={index}>
               <span>{item.author} | </span><li>{item.content}</li>
