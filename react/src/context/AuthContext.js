@@ -75,7 +75,7 @@ export const AuthProvider = ({children}) => {
     let CreateMessage = async (event) =>{
         event.preventDefault()
 
-        let response =  await fetch('http://localhost:8000/message/', {
+        let response =  await fetch('http://localhost:8000/postingMessages/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,14 +94,21 @@ export const AuthProvider = ({children}) => {
     }
 
     let acceptRequest = async (friendID, requestID) => {
-        let response = await fetch('http://127.0.0.1:8000/userprofile/', {
+        let response = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({'user':user.user_id, 'friends': [friendID]})         
         })
-        let test = await fetch(`http://127.0.0.1:8000/friendrequest/${requestID}/`, {
+        let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'user':friendID, 'friends': [user.user_id]})         
+        })
+        let test = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,12 +118,13 @@ export const AuthProvider = ({children}) => {
     }
 
     let declineRequest = async (requestID) => {
-        let response = await fetch(`http://127.0.0.1:8000/friendrequest/${requestID}/`, {
+        let response = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         }
         })
+        window.location.reload();
     }
 
     let contextData = {

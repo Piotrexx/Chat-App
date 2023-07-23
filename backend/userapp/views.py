@@ -40,18 +40,39 @@ class MessageSerielizerView(viewsets.ModelViewSet):
     
 class UserProfileSerielizerView(viewsets.ModelViewSet):
     serializer_class = UserProfileSerielizer
-    queryset = UserProfile.objects.all()
+    
+    def get_queryset(self):
+        queryset = UserProfile.objects.all()
+        foreign_key_id = self.kwargs.get('foreign_key_id')
+        if foreign_key_id:
+            queryset = queryset.filter(user=foreign_key_id)
+        else:
+            queryset = FriendRequest.objects.all()
+        return queryset
+
 
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer
+    
     def get_queryset(self):
         queryset = FriendRequest.objects.all()
         foreign_key_id = self.kwargs.get('foreign_key_id')
         if foreign_key_id:
             queryset = queryset.filter(receiver_id=foreign_key_id)
-        return queryset    
-    
-    
+        else:
+            queryset = FriendRequest.objects.all()
+        return queryset
 
-
     
+    
+class postingRequests(viewsets.ModelViewSet):
+    serializer_class = FriendRequestSerielizer
+    queryset = FriendRequest.objects.all()
+
+class postingMessages(viewsets.ModelViewSet):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
+    
+class postingUserProfile(viewsets.ModelViewSet):
+    serializer_class = UserProfileSerielizer
+    queryset = UserProfile.objects.all()

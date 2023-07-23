@@ -10,7 +10,6 @@ function HomePage() {
     let  [filteredResults, setFilteredResults] = useState([])
     let [friendRequest, setFriendRequest] = useState([])
     let [friends, setFriends] = useState([])
-    let realFriends = []
 
   useEffect(() =>{
     fetch(`http://127.0.0.1:8000/friendrequest/${user.user_id}/`)
@@ -22,17 +21,12 @@ function HomePage() {
   
 
   useEffect(() =>{
-    fetch('http://127.0.0.1:8000/userprofile/')
+    fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`)
     .then(response => response.json())
     .then(friends => setFriends(friends))
     .catch(error => console.log(error))
   }, [])
 
-  friends.map((item)=> {
-    if(item.user || item.friends === user.user_id){
-      realFriends.push(item)
-    }
-  })
 
     useEffect(() => {
       fetch('http://localhost:8000/chatroomform/')
@@ -64,7 +58,7 @@ function HomePage() {
       }
 
       let HandleRequest = async (receiver) => {
-        let response = await fetch('http://127.0.0.1:8000/friendrequest/0/', {
+        let response = await fetch('http://127.0.0.1:8000/postingRequests/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -72,14 +66,7 @@ function HomePage() {
           body: JSON.stringify({'status': 'pending','sender': user.user_id, 'receiver': receiver})
         });
       }
-      let ConvertingNames = (ID) =>{
-        fetch(`http://localhost:8000/user/${ID}/`)
-        .then((response) => response.json())
-          .then((username) => {
-            setUsername(username.username) 
-          })
-          .catch((error) => console.log(error))
-      }
+
     return (
       <div className=''>
           <Link to='/'>Home</Link>
@@ -152,7 +139,7 @@ function HomePage() {
                 }
 
                 {
-                  realFriends.map((item, index) =>{
+                  friends.map((item, index) =>{
                     return(
                       <p key={index}>
                         {item.friends}
