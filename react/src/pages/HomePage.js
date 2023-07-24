@@ -49,11 +49,10 @@ function HomePage() {
             update = [...username]
             update.splice(index, 1)
             setUsername(update)
-            console.log(update)
           }
         },[])
       })
-      
+
       let SearchItems = (searchValue) => {
         setSearchInput(searchValue)
         let update
@@ -67,7 +66,6 @@ function HomePage() {
               update = [...filteredData]
               update.splice(index, 1)
               setFilteredResults(update)
-              console.log(update)
             }
 
           })
@@ -78,8 +76,6 @@ function HomePage() {
             if(item.id == user.user_id){
               update = [username]
               update.splice(index, 1)
-
-              console.log(update)
             }
           })
 
