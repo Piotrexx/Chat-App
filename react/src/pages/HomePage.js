@@ -10,7 +10,7 @@ function HomePage() {
     let  [filteredResults, setFilteredResults] = useState([])
     let [friendRequest, setFriendRequest] = useState([])
     let [friends, setFriends] = useState([])
-
+    let update
   useEffect(() =>{
     fetch(`http://127.0.0.1:8000/friendrequest/${user.user_id}/`)
     .then(response => response.json())
@@ -41,21 +41,52 @@ function HomePage() {
         .then(response => response.json())
         .then(username => setUsername(username))
         .catch(error => console.log(error))
-      }, [])
 
+      }, [])
+      useEffect(() => {
+        username.map((item, index) =>{
+          if(item.id == user.user_id){
+            update = [...username]
+            update.splice(index, 1)
+            setUsername(update)
+            console.log(update)
+          }
+        },[])
+      })
+      
       let SearchItems = (searchValue) => {
         setSearchInput(searchValue)
+        let update
         if(searchInput !== ''){
-          const filteredData = username.filter((item) => {
+          let filteredData = username.filter((item) => {
             return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
           })
-          setFilteredResults(filteredData)
+
+          filteredData.map((item, index) =>{
+            if(item.id == user.user_id){
+              update = [...filteredData]
+              update.splice(index, 1)
+              setFilteredResults(update)
+              console.log(update)
+            }
+
+          })
+          
         }
         else{
-          setFilteredResults(username)
+          username.map((item, index) =>{
+            if(item.id == user.user_id){
+              update = [username]
+              update.splice(index, 1)
+
+              console.log(update)
+            }
+          })
 
         }
       }
+
+
 
       let HandleRequest = async (receiver) => {
         let response = await fetch('http://127.0.0.1:8000/postingRequests/', {
@@ -66,7 +97,7 @@ function HomePage() {
           body: JSON.stringify({'status': 'pending','sender': user.user_id, 'receiver': receiver})
         });
       }
-
+      
     return (
       <div className=''>
           <Link to='/'>Home</Link>
@@ -107,7 +138,7 @@ function HomePage() {
               <input type='text' name='usersearch' placeholder='Type searching query' onChange={(e) => SearchItems(e.target.value)}/>
             </form>
              
-                {searchInput.length > 1 ? (
+                {searchInput.length >= 1 ? (
                     filteredResults.map((item, index) => {
                     return(
                       <p key={index}>

@@ -31,6 +31,7 @@ class ChatRoomSerializerView(viewsets.ModelViewSet):
 
 class MessageSerielizerView(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
+    
     def get_queryset(self):
         queryset = Message.objects.all()
         foreign_key_id = self.kwargs.get('foreign_key_id')
