@@ -43,42 +43,22 @@ function HomePage() {
         .catch(error => console.log(error))
 
       }, [])
-      useEffect(() => {
-        username.map((item, index) =>{
-          if(item.id == user.user_id){
-            update = [...username]
-            update.splice(index, 1)
-            setUsername(update)
-          }
-        },[])
-      })
 
+      // console.log(username)
       let SearchItems = (searchValue) => {
         setSearchInput(searchValue)
         let update
+        let test = [...friends]
         if(searchInput !== ''){
           let filteredData = username.filter((item) => {
             return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
           })
-
-          filteredData.map((item, index) =>{
-            if(item.id == user.user_id){
-              update = [...filteredData]
-              update.splice(index, 1)
-              setFilteredResults(update)
-            }
-
-          })
-          
+          setFilteredResults(filteredData)
+          console.log(filteredData)
         }
         else{
-          username.map((item, index) =>{
-            if(item.id == user.user_id){
-              update = [username]
-              update.splice(index, 1)
-            }
-          })
-
+          update = username.filter((item) => item.id !== user.user_id)
+          setUsername(update)
         }
       }
 
@@ -134,7 +114,7 @@ function HomePage() {
               <input type='text' name='usersearch' placeholder='Type searching query' onChange={(e) => SearchItems(e.target.value)}/>
             </form>
              
-                {searchInput.length >= 1 ? (
+                {searchInput.length > 1 ? (
                     filteredResults.map((item, index) => {
                     return(
                       <p key={index}>
