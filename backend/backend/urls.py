@@ -32,5 +32,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('messages/<int:foreign_key_id>/', views.MessageSerielizerView.as_view({'get': 'list'}), name='message-list'),
     path('friendrequest/<int:foreign_key_id>/', views.FriendRequestSerielizerView.as_view({'get':'list'}), name="friendrequest"),
-    path('friends/<int:foreign_key_id>/', views.UserProfileSerielizerView.as_view({'get':'list'}), name='friends')
+    path('friends/<int:foreign_key_id>/', views.UserProfileSerielizerView.as_view({'get':'list'}), name='friends'),
+    path('userID/<int:foreign_key_id>/', views.UserViewById.as_view({'get':'list'}), name='user'),
 ]

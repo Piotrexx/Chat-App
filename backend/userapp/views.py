@@ -21,9 +21,7 @@ class MyTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
-class UserSerializerView(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
+
 
 class ChatRoomSerializerView(viewsets.ModelViewSet):
     serializer_class = ChatRoomSerializer
@@ -64,7 +62,19 @@ class FriendRequestSerielizerView(viewsets.ModelViewSet):
             queryset = FriendRequest.objects.all()
         return queryset
 
-    
+
+class UserViewById(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        queryset = User.objects.all()
+        foreign_key_id = self.kwargs.get('foreign_key_id')
+        if foreign_key_id:
+            queryset = queryset.filter(id=foreign_key_id)
+        else:
+            queryset = User.objects.all()
+        return queryset
+
     
 class postingRequests(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer
@@ -77,3 +87,7 @@ class postingMessages(viewsets.ModelViewSet):
 class postingUserProfile(viewsets.ModelViewSet):
     serializer_class = UserProfileSerielizer
     queryset = UserProfile.objects.all()
+
+class UserSerializerView(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()

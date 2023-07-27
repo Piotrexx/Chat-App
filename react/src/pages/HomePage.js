@@ -10,6 +10,7 @@ function HomePage() {
     let  [filteredResults, setFilteredResults] = useState([])
     let [friendRequest, setFriendRequest] = useState([])
     let [friends, setFriends] = useState([])
+    let [converted, setConvert] = useState([])
     let update
   useEffect(() =>{
     fetch(`http://127.0.0.1:8000/friendrequest/${user.user_id}/`)
@@ -26,7 +27,6 @@ function HomePage() {
     .then(friends => setFriends(friends))
     .catch(error => console.log(error))
   }, [])
-
 
     useEffect(() => {
       fetch('http://localhost:8000/chatroomform/')
@@ -74,6 +74,8 @@ function HomePage() {
         });
       }
       
+
+
     return (
       <div className=''>
           <Link to='/'>Home</Link>
