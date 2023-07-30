@@ -15,11 +15,8 @@ export const AuthProvider = ({children}) => {
     let [usercheck, setUserCheck] = useState()
     let [friendCheck, setFriendCheck] = useState()
     let navigate = useNavigate ()
-    useEffect(() => {
-        fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`)
-        .then (response => response.json())
-        .then(id => setUserCheck(id))
-    }, [])
+    
+
     let loginUser = async (event) =>{
         event.preventDefault()
         console.log('it is working')
@@ -96,55 +93,74 @@ export const AuthProvider = ({children}) => {
         navigate('/login')
     }
 
-    let acceptRequest = async (friendID, requestID) => {
+    let checking = async (id) => {
+        const response = await fetch(`http://127.0.0.1:8000/friends/${id}/`);
+        return await response.json();
+    }
 
-        
-        console.log(usercheck)
-        if(usercheck.user === user.user_id){
-            let response = await fetch(`http://127.0.0.1:8000/postingUserProfile/${user.user_id}/`, {
+    let acceptRequest = async (friendID, requestID) => {
+        const userExists = await checking(user.user_id);
+    
+        if (userExists) {
+            let response = await fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'user':user.user_id, 'friends': friendID})         
-            })
-            let add = await fetch(`http://127.0.0.1:8000/postingUserProfile/${friendID}/`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({'user':friendID, 'friends': user.user_id})         
-            })
+                body: JSON.stringify({'user': user.user_id, 'friends': friendID})         
+            });
+            
+            const friendExists = await checking(friendID);
+    
+            if (friendExists) {
+                let add = await fetch(`http://127.0.0.1:8000/friends/${friendID}/`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({'user': friendID, 'friends': user.user_id})         
+                });
+            } else {
+                let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({'user': friendID, 'friends': [user.user_id]})         
+                });
+            }
+    
             let test = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
-        }
-        else{
+            });
+        } else {
             let response = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'user':user.user_id, 'friends': [friendID]})         
-            })
+                body: JSON.stringify({'user': user.user_id, 'friends': [friendID]})         
+            });
+    
             let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'user':friendID, 'friends': [user.user_id]})         
-            })
+                body: JSON.stringify({'user': friendID, 'friends': [user.user_id]})         
+            });
+    
             let test = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
+            });
         }
-
+    
         // window.location.reload();
     }
 

@@ -39,7 +39,7 @@ class MessageSerielizerView(viewsets.ModelViewSet):
     
 class UserProfileSerielizerView(viewsets.ModelViewSet):
     serializer_class = UserProfileSerielizer
-    
+
     def get_queryset(self):
         queryset = UserProfile.objects.all()
         foreign_key_id = self.kwargs.get('foreign_key_id')
