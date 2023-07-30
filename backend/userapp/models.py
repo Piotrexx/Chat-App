@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    friends = models.ManyToManyField(User, related_name='friends')
+    # friends = models.ManyToManyField(User, related_name='friends')
+    friends = ArrayField(models.IntegerField(), default=None)
 
 
 

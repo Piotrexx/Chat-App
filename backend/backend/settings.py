@@ -141,7 +141,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django',
+        'NAME': 'chatapp',
         'USER': 'postgres',
         'PASSWORD': os.getenv('PASSWORD'),
         'HOST': 'localhost',
