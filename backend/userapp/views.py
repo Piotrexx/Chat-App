@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from .serializers import UserSerializer, ChatRoomSerializer, MessageSerializer, UserProfileSerielizer, FriendRequestSerielizer
 from django.contrib.auth.models import User
 from .models import ChatRoom, Message, UserProfile, FriendRequest
 from rest_framework.response import Response
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -32,9 +33,9 @@ class MessageSerielizerView(viewsets.ModelViewSet):
     
     def get_queryset(self):
         queryset = Message.objects.all()
-        foreign_key_id = self.kwargs.get('foreign_key_id')
-        if foreign_key_id:
-            queryset = queryset.filter(chatroom_id=foreign_key_id)
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = queryset.filter(chatroom_id=pk)
         return queryset    
     
 class UserProfileSerielizerView(viewsets.ModelViewSet):
@@ -42,12 +43,15 @@ class UserProfileSerielizerView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = UserProfile.objects.all()
-        foreign_key_id = self.kwargs.get('foreign_key_id')
-        if foreign_key_id:
-            queryset = queryset.filter(user=foreign_key_id)
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = queryset.filter(user=pk)
         else:
-            queryset = FriendRequest.objects.all()
+            queryset = UserProfile.objects.all()
         return queryset
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
@@ -55,9 +59,9 @@ class FriendRequestSerielizerView(viewsets.ModelViewSet):
     
     def get_queryset(self):
         queryset = FriendRequest.objects.all()
-        foreign_key_id = self.kwargs.get('foreign_key_id')
-        if foreign_key_id:
-            queryset = queryset.filter(receiver_id=foreign_key_id)
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = queryset.filter(receiver_id=pk)
         else:
             queryset = FriendRequest.objects.all()
         return queryset
@@ -68,9 +72,9 @@ class UserViewById(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = User.objects.all()
-        foreign_key_id = self.kwargs.get('foreign_key_id')
-        if foreign_key_id:
-            queryset = queryset.filter(id=foreign_key_id)
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = queryset.filter(id=pk)
         else:
             queryset = User.objects.all()
         return queryset

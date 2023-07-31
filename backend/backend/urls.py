@@ -26,12 +26,14 @@ router.register(r'postingUserProfile', views.postingUserProfile, 'postingUserPro
 router.register(r'postingRequests', views.postingRequests, 'postingRequests')
 router.register(r'postingMessages', views.postingMessages, 'postingMessages')
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('userapp.urls')),
     path('', include(router.urls)),
-    path('messages/<int:foreign_key_id>/', views.MessageSerielizerView.as_view({'get': 'list'}), name='message-list'),
-    path('friendrequest/<int:foreign_key_id>/', views.FriendRequestSerielizerView.as_view({'get':'list'}), name="friendrequest"),
-    path('friends/<int:foreign_key_id>/', views.UserProfileSerielizerView.as_view({'get':'list'}), name='friends'),
-    path('userID/<int:foreign_key_id>/', views.UserViewById.as_view({'get':'list'}), name='user'),
+    path('messages/<int:pk>/', views.MessageSerielizerView.as_view({'get': 'list'}), name='message-list'),
+    path('friendrequest/<int:pk>/', views.FriendRequestSerielizerView.as_view({'get':'list'}), name="friendrequest"),
+    path('friends/<int:pk>/', views.UserProfileSerielizerView.as_view({'get':'list', 'put': 'update'}), name='friends'),
+    path('userID/<int:pk>/', views.UserViewById.as_view({'get':'list'}), name='user'),
 ]

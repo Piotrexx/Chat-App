@@ -100,8 +100,8 @@ export const AuthProvider = ({children}) => {
 
     let acceptRequest = async (friendID, requestID) => {
         const userExists = await checking(user.user_id);
-    
-        if (userExists) {
+        console.log(userExists)
+        if (userExists.length !== 0) {
             let response = await fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`, {
                 method: 'PUT',
                 headers: {
