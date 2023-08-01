@@ -6,7 +6,6 @@ from django.contrib.postgres.fields import ArrayField
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # friends = models.ManyToManyField(User, related_name='friends')
     friends = ArrayField(models.IntegerField(), default=None)
 
 

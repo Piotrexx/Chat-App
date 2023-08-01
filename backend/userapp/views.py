@@ -53,7 +53,6 @@ class UserProfileSerielizerView(viewsets.ModelViewSet):
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer
     
