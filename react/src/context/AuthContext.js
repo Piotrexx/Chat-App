@@ -99,49 +99,27 @@ export const AuthProvider = ({children}) => {
     }
 
     let acceptRequest = async (friendID, requestID) => {
-        let userExists = await checking(user.user_id);
-        let friendExists = await checking(friendID);
+        const userExists = await checking(user.user_id);
+
        
-        console.log(friendExists)
-        console.log(userExists)
         if (userExists.length !== 0) {
-            let {friends} = userExists[0]
-            let {id} = userExists[0]
-            console.log(friends + ' this is friends')
-            console.log(id + ' this is id')
-            let response = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
-                method: 'POST',
+            let response = await fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({'user': user.user_id, 'friends':[ friends.push(friendID)]})
+                body: JSON.stringify({'user': user.user_id, 'friends': friendID})
             })
-            let deleResp = await fetch(`http://127.0.0.1:8000/postingUserProfile/${id}/`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-    
+            const friendExists = await checking(friendID);
             if (friendExists.length !== 0) {        
-                let {friends} = friendExists[0] 
-
-                let {id} = friendExists[0]
-                let response = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
-                    method: 'POST',
+                let response = await fetch(`http://127.0.0.1:8000/friends/${friendID}/`, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({'user': friendID, 'friends': [friends.push(user.user_id)]})
+                    body: JSON.stringify({'user': friendID, 'friends': user.user_id})
                 })
-                console.log(friends.push(user.user_id))
-                let deleResp = await fetch(`http://127.0.0.1:8000/postingUserProfile/${id}/`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+
             } else {
                 let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
                     method: 'POST',
