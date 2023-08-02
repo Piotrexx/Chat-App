@@ -93,77 +93,32 @@ export const AuthProvider = ({children}) => {
         navigate('/login')
     }
 
-    let checking = async (id) => {
-        const response = await fetch(`http://127.0.0.1:8000/friends/${id}/`);
-        return await response.json();
-    }
 
     let acceptRequest = async (friendID, requestID) => {
-        const userExists = await checking(user.user_id);
-
-       
-        if (userExists.length !== 0) {
-            let response = await fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({'user': user.user_id, 'friends': friendID})
-            })
-            const friendExists = await checking(friendID);
-            if (friendExists.length !== 0) {        
-                let response = await fetch(`http://127.0.0.1:8000/friends/${friendID}/`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({'user': friendID, 'friends': user.user_id})
-                })
-
-            } else {
-                let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({'user': friendID, 'friends': [user.user_id]})         
-                });
+        let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'user': friendID, 'friends': [user.user_id]})         
+        });
+        let response = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'user': user.user_id, 'friends': [friendID]})         
+        });
+        let test = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
             }
-    
-            let test = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        } else {
-            let response = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({'user': user.user_id, 'friends': [friendID]})         
-            });
-    
-            let add = await fetch('http://127.0.0.1:8000/postingUserProfile/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({'user': friendID, 'friends': [user.user_id]})         
-            });
-    
-            let test = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        }
-    
-        // window.location.reload();
+        });
+            window.location.reload();
     }
 
+    
     let declineRequest = async (requestID) => {
         let response = await fetch(`http://127.0.0.1:8000/postingRequests/${requestID}/`, {
         method: 'DELETE',

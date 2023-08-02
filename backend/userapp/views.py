@@ -49,9 +49,6 @@ class UserProfileSerielizerView(viewsets.ModelViewSet):
         else:
             queryset = UserProfile.objects.all()
         return queryset
-    
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer
