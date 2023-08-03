@@ -12,6 +12,7 @@ function HomePage() {
     let [friends, setFriends] = useState([])
     let [converted, setConvert] = useState([])
     let update
+
   useEffect(() =>{
     fetch(`http://127.0.0.1:8000/friendrequest/${user.user_id}/`)
     .then(response => response.json())
@@ -41,23 +42,26 @@ function HomePage() {
         .then(response => response.json())
         .then(username => setUsername(username))
         .catch(error => console.log(error))
-
       }, [])
 
+
+
       // console.log(username)
-      let SearchItems = (searchValue) => {
+      let SearchItems = (searchValue, friends) => {
         setSearchInput(searchValue)
         let update
         let test = [...friends]
-        if(searchInput !== ''){
+        update = username.filter((item, index) => item.id !== user.user_id && item.id !== (test.length - 1 < index ? null : test[index].friends[0]))
+        setUsername(update)
+        // console.log(test[0].friends[0])
+        // console.log(test)
+        if (searchInput !== '') {
           let filteredData = username.filter((item) => {
             return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
           })
           setFilteredResults(filteredData)
-          console.log(filteredData)
-        }
-        else{
-          update = username.filter((item) => item.id !== user.user_id)
+        } else {
+          update = username.filter((item, index) => item.id !== user.user_id && item.id !== (test.length - 1 < index ? null : test[index].friends[0]))
           setUsername(update)
         }
       }
@@ -113,7 +117,7 @@ function HomePage() {
 
             <h3>Search users: </h3>
             <form>
-              <input type='text' name='usersearch' placeholder='Type searching query' onChange={(e) => SearchItems(e.target.value)}/>
+              <input type='text' name='usersearch' placeholder='Type searching query' onChange={(e) => SearchItems(e.target.value, friends)}/>
             </form>
              
                 {searchInput.length > 1 ? (
