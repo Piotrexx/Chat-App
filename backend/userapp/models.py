@@ -21,6 +21,7 @@ class ChatRoom(models.Model):
     description = models.CharField(max_length=250)
     private = models.BooleanField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    friends_added = ArrayField(models.IntegerField(), default=None)
     
     def __str__(self):
         return self.title

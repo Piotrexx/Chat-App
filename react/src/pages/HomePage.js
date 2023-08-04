@@ -42,11 +42,7 @@ function HomePage() {
       .catch((error) => console.log(error));
   }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:8000/user/")
-      .then((response) => response.json())
-      .then((testing) => setConvert(testing[testing.filter]));
-  });
+
 
   // console.log(username)
   let SearchItems = (searchValue, friends) => {
@@ -124,7 +120,7 @@ function HomePage() {
             {
               item.id !== user.user_id && !(friends.map((item) => {return item.friends[0]})).includes(item.id) ? (
                 <p key={index}>
-                  {item.username}{" "}
+                  {item.username}
                   <span>
                     <button onClick={() => HandleRequest(item.id)}>
                       ADD FRIEND
@@ -137,13 +133,12 @@ function HomePage() {
             }
           })
           : username.map((item, index) => {
-            //(friends.length - 1 < index ? null : friends[index].friends[0]) || console.log(friends.length - 1 < index ? null : friends[index].friends[0]), item.id !== friends[index > friends.length ? test=0 : index].friends[0]
             if (
               item.id !== user.user_id  && !(friends.map((item) => {return item.friends[0]})).includes(item.id)
             ) {
               return (
                 <p key={index}>
-                  {item.username}{" "}
+                  {item.username}
                   <span>
                     <button onClick={() => HandleRequest(item.id)}>
                       ADD FRIEND
@@ -164,7 +159,7 @@ function HomePage() {
             <button onClick={() => acceptRequest(item.sender, item.id)}>
               ACCEPT
             </button>
-            <span> | </span>{" "}
+            <span> | </span>
             <button onClick={() => declineRequest(item.id)}>DECLINE</button>
           </p>
         );
