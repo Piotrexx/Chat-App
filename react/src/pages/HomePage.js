@@ -122,7 +122,7 @@ function HomePage() {
       {searchInput.length > 1
         ? filteredResults.map((item, index) => {
             {
-              item.id !== user.user_id && item.id !== (friends.length - 1 < index ? null : friends[index].friends[0]) ? (
+              item.id !== user.user_id && !(friends.map((item) => {return item.friends[0]})).includes(item.id) ? (
                 <p key={index}>
                   {item.username}{" "}
                   <span>
@@ -132,14 +132,14 @@ function HomePage() {
                   </span>
                 </p>
               ) : (
-                <p>joł</p>
+                <p></p>
               );
             }
           })
-          : username.map((item, index, test=-1) => {
+          : username.map((item, index) => {
             //(friends.length - 1 < index ? null : friends[index].friends[0]) || console.log(friends.length - 1 < index ? null : friends[index].friends[0]), item.id !== friends[index > friends.length ? test=0 : index].friends[0]
             if (
-              item.id !== user.user_id  || console.log(friends[index > friends.length ? test++ : index].friends[0])
+              item.id !== user.user_id  && !(friends.map((item) => {return item.friends[0]})).includes(item.id)
             ) {
               return (
                 <p key={index}>
@@ -153,7 +153,7 @@ function HomePage() {
               );
             }
             else{
-              <p>oaidaw</p>
+              <p></p>
             }
           })}
       {friendRequest.map((item, index) => {
