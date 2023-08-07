@@ -15,7 +15,9 @@ export const AuthProvider = ({children}) => {
     let [usercheck, setUserCheck] = useState()
     let [friendCheck, setFriendCheck] = useState()
     let navigate = useNavigate ()
+    let [friends, setFriends] = useState([])
     
+
 
     let loginUser = async (event) =>{
         event.preventDefault()
@@ -52,20 +54,36 @@ export const AuthProvider = ({children}) => {
     }
 
     let CreateChatRoom = async (event) => {
+        useEffect(() => {
+            fetch(`http://127.0.0.1:8000/friends/${user.user_id}/`)
+            .then(response => response.json())
+            .then(friends => setFriends(friends))
+            .catch(error => console.log(error))
+          }, [])
         event.preventDefault()
         let isPrivate
+        let idTest
+        let allowed = [1 ,2] // still working on that, now im going to work on friends... again
         if(event.target.private.value == "on"){
             isPrivate = true
         }
         else{
             isPrivate = false
         }
+        // friends.map((item) => {
+
+        //     if(item.id === event.target.friend && event.target.friend.value === "on") {
+        //         allowed.push(item.id)
+        //     }
+        // })
+        console.log(allowed)
+        console.log(event.target.friend.key)
         let response= await fetch('http://localhost:8000/chatroomform/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'title':event.target.title.value, 'description':event.target.description.value, 'private':isPrivate, 'author': user.user_id})
+            body: JSON.stringify({'title':event.target.title.value, 'description':event.target.description.value, 'private':isPrivate, 'author': user.user_id, 'friends_added': allowed})
         }
         )
         navigate('/')

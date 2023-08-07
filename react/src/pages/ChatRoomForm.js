@@ -22,8 +22,8 @@ function ChatRoomForm() {
               toggle && friends.map((item) => {
                 return (
                   <ul>
-                    <input type="checkbox" id={item.id} name='friend'value={item.friends[0]} />
-                    <label htmlFor={item.id}>{item.friends[0]}</label>
+                    <input type="checkbox" id={item.id} key={item.friends[0]} name={'friend'}value={item.friends[0]} />
+                    <label>{item.friends[0]}</label>
                   </ul>
                 );
               })

@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from .models import ChatRoom, Message, UserProfile, FriendRequest
+from rest_framework.response import Response
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -15,6 +17,13 @@ class ChatRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatRoom
         fields = '__all__'
+
+    # def create(self, validated_data):
+    #     if validated_data['private'] and validated_data['friends_added'] == []:
+    #         return Response({'message': 'loldiawpjhdaw'}, status=400)
+    #     print(validated_data)
+    #     return super().create(validated_data)
+
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:

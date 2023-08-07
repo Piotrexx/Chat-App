@@ -6,7 +6,7 @@ from .serializers import UserSerializer, ChatRoomSerializer, MessageSerializer, 
 from django.contrib.auth.models import User
 from .models import ChatRoom, Message, UserProfile, FriendRequest
 from rest_framework.response import Response
-
+from django.http import JsonResponse
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -27,6 +27,7 @@ class MyTokenPairView(TokenObtainPairView):
 class ChatRoomSerializerView(viewsets.ModelViewSet):
     serializer_class = ChatRoomSerializer
     queryset = ChatRoom.objects.all()
+
 
 class MessageSerielizerView(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
