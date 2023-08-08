@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import viewsets, generics
@@ -47,9 +48,12 @@ class UserProfileSerielizerView(viewsets.ModelViewSet):
         pk = self.kwargs.get('pk')
         if pk:
             queryset = queryset.filter(user=pk)
-        else:
-            queryset = UserProfile.objects.all()
         return queryset
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, user=self.kwargs.get('pk'))
+        return obj
 
 class FriendRequestSerielizerView(viewsets.ModelViewSet):
     serializer_class = FriendRequestSerielizer

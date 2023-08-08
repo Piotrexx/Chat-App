@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
@@ -8,7 +9,8 @@ from django.contrib.postgres.fields import ArrayField
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     friends = ArrayField(models.IntegerField(null=True, blank=True), null=True, blank=True)
-    # friends = models.ManyToManyField(User, related_name='friends')
+
+
 
 class FriendRequest(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
